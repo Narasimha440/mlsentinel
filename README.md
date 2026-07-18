@@ -1,5 +1,9 @@
 # MLSentinel
 
+[![PyPI version](https://img.shields.io/pypi/v/mlsentinel.svg)](https://pypi.org/project/mlsentinel/)
+[![Python](https://img.shields.io/pypi/pyversions/mlsentinel.svg)](https://pypi.org/project/mlsentinel/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 MLSentinel is a Python SDK for monitoring, validating, and analyzing Machine Learning models.
 
 > 🚧 **Developer Preview**
