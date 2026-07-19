@@ -1,3 +1,5 @@
+![LOGO](logo.png)
+
 # MLSentinel
 
 MLSentinel is a Python SDK for monitoring, validating, and analyzing Machine Learning models.
