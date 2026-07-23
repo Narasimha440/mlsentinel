@@ -63,3 +63,9 @@ class MLSentinalServerError(MLSentinelError):
     """
 
     pass
+
+class UnsupportedSDKVersionError(MLSentinelError):
+    """
+    Raised when installed SDK version is below the backend's required minimum.
+    """
+    pass

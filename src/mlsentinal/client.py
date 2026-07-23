@@ -5,6 +5,7 @@ Main client for serving to the Platform
 from .version import __version__
 from .models import Report
 from .transport import Transport
+from .version_check import check_sdk_version
 from .validators import (
     validate_project,
     validate_metrics,
@@ -16,8 +17,11 @@ class MLDoc:
     Main SDK client
     """
 
-    def __init__(self, api_key: str):
+    def __init__(self, api_key: str, check_version: bool = True):
         self.api_key = api_key
+
+        if check_version:
+            check_sdk_version(silent=True)
 
         
 
