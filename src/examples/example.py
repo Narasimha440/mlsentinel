@@ -3,10 +3,10 @@ from mlsentinal.exceptions import MLSentinelError
 
 monitor = MLDoc("narasimha_9963111874")
 
-try:
+# try:
 
 
-    response = monitor.doc_report(
+response = monitor.doc_report(
         project="MLSentinal",
         model="ResNet50",
         metrics={
@@ -19,7 +19,7 @@ try:
         },
     )
 
-    print(response)
+print(response)
 
-except MLSentinelError as e:
-    print(f"{e}")
+# except MLSentinelError as e:
+#     print(f"{e}")

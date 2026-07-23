@@ -1,0 +1,24 @@
+[tool.bumpversion]
+current_version = "0.1.4.dev3"
+parse = """(?x)
+    (?P<major>0|[1-9]\\d*)\\.
+    (?P<minor>0|[1-9]\\d*)\\.
+    (?P<patch>0|[1-9]\\d*)
+    (?:\\.dev(?P<dev>\\d+))?
+"""
+serialize = [
+    "{major}.{minor}.{patch}.dev{dev}",
+    "{major}.{minor}.{patch}"
+]
+commit = true
+tag = true
+tag_name = "v{new_version}"
+allow_dirty = false
+
+[[tool.bumpversion.files]]
+filename = "version.py"
+search = '__version__ = "{current_version}"'
+replace = '__version__ = "{new_version}"'
+
+[tool.bumpversion.parts.dev]
+first_value = "0"
