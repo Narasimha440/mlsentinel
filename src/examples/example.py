@@ -1,5 +1,5 @@
 from mlsentinal import MLDoc
-from mlsentinal.exceptions import MLSentinalError
+from mlsentinal.exceptions import MLSentinelError
 
 monitor = MLDoc("narasimha_9963111874")
 
@@ -21,5 +21,5 @@ try:
 
     print(response)
 
-except MLSentinalError as e:
+except MLSentinelError as e:
     print(f"{e}")

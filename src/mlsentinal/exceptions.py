@@ -2,7 +2,7 @@
 Custom made exceptions for MLSentinal SDK for efficient error handling
 """
 
-class MLSentinalError(Exception):
+class MLSentinelError(Exception):
     """
     Base exception
     """
@@ -15,49 +15,49 @@ class MLSentinalError(Exception):
         return f"[{self.code}] {self.message}"
     
     
-class InvalidAPIKeyError(MLSentinalError):
+class InvalidAPIKeyError(MLSentinelError):
     """
     Raised when entered API key was wrong
     """
 
     pass
 
-class AuthenticationError(MLSentinalError):
+class AuthenticationError(MLSentinelError):
     """
     When Authentication failes
     """
 
     pass
 
-class MetricValidationError(MLSentinalError):
+class MetricValidationError(MLSentinelError):
     """
     Raised one or more metrics
     """
 
     pass
 
-class ProjectValidationError(MLSentinalError):
+class ProjectValidationError(MLSentinelError):
     """
     When project name is invalid
     """
 
     pass
 
-class ModelValidationError(MLSentinalError):
+class ModelValidationError(MLSentinelError):
     """
     When invalid model name
     """
 
     pass
 
-class MLSentinalConnectionError(MLSentinalError):
+class MLSentinalConnectionError(MLSentinelError):
     """
     When SDK could not connect the MLSentinal servers
     """
 
     pass
 
-class MLSentinalServerError(MLSentinalError):
+class MLSentinalServerError(MLSentinelError):
     """
     When server returns error
     """

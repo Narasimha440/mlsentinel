@@ -5,6 +5,7 @@
 [![PyPI](https://img.shields.io/pypi/v/mlsentinel.svg)](https://pypi.org/project/mlsentinel/)
 [![Python](https://img.shields.io/pypi/pyversions/mlsentinel.svg)](https://pypi.org/project/mlsentinel/)
 [![License](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
+[![PyPI Downloads](https://static.pepy.tech/personalized-badge/mlsentinel?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/mlsentinel)
 
 **Validate and submit machine-learning evaluation metrics from Python.**
 
