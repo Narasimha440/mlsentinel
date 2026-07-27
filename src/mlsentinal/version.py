@@ -3,4 +3,4 @@ Stores the current version of the MLSentinal SDk
 
 """
 
-__version__ = "0.1.5.dev3"
+__version__ = "0.1.6.dev3"
