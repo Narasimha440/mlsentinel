@@ -1,7 +1,6 @@
 """
 Handles communication with the MLSentinal Backend
 """
-print(">>> NEW TRANSPORT.PY IS LOADED <<<")
 import requests
 
 from .error_codes import ErrorCodes
@@ -120,3 +119,29 @@ class Transport:
                 ErrorCodes.SERVER_INVALID_RESPONSE,
                 "Server returned a response that is not valid JSON."
             )
+
+    def send_data_quality_report(self, report):
+        headers = DEFAULT_HEADERS.copy()
+        headers["X-API-Key"] = self.api_key
+
+        payload = {
+            "project": report.project,
+            "model": report.model,
+            "summary": report.summary,
+        }
+
+        try:
+            print("BASE_URL:", BASE_URL)
+            print("REQUEST URL:", f"{BASE_URL}/api/data-quality")
+            response = requests.post(
+                f"{BASE_URL}/api/data-quality",
+                headers=headers,
+                json=payload,
+                timeout=REQUEST_TIMEOUT
+            )
+        except requests.exceptions.Timeout:
+            raise MLSentinalConnectionError(ErrorCodes.REQUEST_TIME_OUT, f"Request timed out after {REQUEST_TIMEOUT} seconds.")
+        except requests.exceptions.ConnectionError:
+            raise MLSentinalConnectionError(ErrorCodes.MLSENTINAL_CONNECTION_ERROR, "Unable to connect to the MLSentinel Backend.")
+
+        return self._handle_response(response)

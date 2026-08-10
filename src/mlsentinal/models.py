@@ -29,3 +29,9 @@ class ReportResponse:
     message: str
     report_id: str
     health_score: float
+
+@dataclass
+class DataQualityReport:
+    project: str
+    model: str
+    summary: Dict[str, Any]

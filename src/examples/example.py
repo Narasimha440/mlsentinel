@@ -1,25 +1,10 @@
+# mls_855bffd0f743d073c18e7b9783942a8d8e1039b330a4011a
+
+import pandas as pd
 from mlsentinal import MLDoc
-from mlsentinal.exceptions import MLSentinelError
 
-monitor = MLDoc("mls_0233e1e75ba1fa850887caeb29ae39ca67e74bde87a5c121")
+df = pd.read_csv("creditcard.csv")
 
-# try:
-
-
-response = monitor.doc_report(
-        project="MLSentinal",
-        model="ResNet50",
-        metrics={
-            "accuracy": 0.50,
-            "precision": 0.44,
-            "recall": 0.23,
-            "f1_score": 0.84,
-            "roc_auc": 0.18,
-            "val_loss": 0.56,
-        },
-    )
-
+monitor = MLDoc("mls_855bffd0f743d073c18e7b9783942a8d8e1039b330a4011a")
+response = monitor.report_data_quality(project="loan prediction", model="ResNet50", dataframe=df)
 print(response)
-
-# except MLSentinelError as e:
-#     print(f"{e}")

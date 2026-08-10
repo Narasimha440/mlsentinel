@@ -11,6 +11,7 @@ from .validators import (
     validate_metrics,
     validate_model,
 )
+from .data_quality import compute_data_quality_summary
 
 class MLDoc:
     """
@@ -52,6 +53,19 @@ class MLDoc:
         transport = Transport(self.api_key)
         response = transport.send_report(report)
 
+        return response
+
+    def report_data_quality(self, project: str, model: str, dataframe):
+
+        print("Analyzing data quality locally (MLSentinel does not carry your raw data)...")
+        summary = compute_data_quality_summary(dataframe)
+
+        from .models import DataQualityReport
+        report = DataQualityReport(project=project, model=model, summary=summary)
+
+        print("Uploading data quality summary....")
+        transport = Transport(self.api_key)
+        response = transport.send_data_quality_report(report)
         return response
 
 
