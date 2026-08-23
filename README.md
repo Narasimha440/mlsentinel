@@ -1,13 +1,26 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Narasimha440/mlsentinal/main/logo.png" alt="MLSentinel logo" width="160">
+  <img src="https://raw.githubusercontent.com/Narasimha440/mlsentinal/main/logo.png" alt="MLSentinel logo" width="800">
 </p>
 
-# MLSentinel SDK
+<p align="center">
+  Python SDK for monitoring machine learning models with MLSentinel.
+</p>
+
+<p align="center">
+  <a href="https://mlsentinel.dev">Website</a> ·
+  <a href="https://mlsentinel.dev/dashboard">Dashboard</a> ·
+  <a href="https://pypi.org/project/mlsentinel/">PyPI</a> ·
+  <a href="https://github.com/Narasimha440/mlsentinal">GitHub</a>
+</p>
+
+<p align="center">
 
 [![PyPI](https://img.shields.io/pypi/v/mlsentinel.svg)](https://pypi.org/project/mlsentinel/)
 [![Python](https://img.shields.io/pypi/pyversions/mlsentinel.svg)](https://pypi.org/project/mlsentinel/)
 [![License](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
 [![PyPI Downloads](https://static.pepy.tech/personalized-badge/mlsentinel?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/mlsentinel)
+
+</p>
 
 MLSentinel is a Python SDK for sending machine learning model evaluation metrics and data-quality reports to the MLSentinel platform.
 
@@ -25,6 +38,34 @@ There are two main ways to send model evaluation reports:
 
 - `auto_report()` — automatically uses the model associated with your API key.
 - `doc_report()` — lets you provide the project and model manually.
+
+---
+
+## Contents
+
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [MLSentinel Dashboard](#mlsentinel-dashboard)
+- [Dashboard Setup](#dashboard-setup)
+- [Creating an API Key](#creating-an-api-key)
+- [Using the SDK](#using-the-sdk)
+- [Auto Reports](#auto-reports)
+- [Auto Report with a Trained Model](#auto-report-with-a-trained-model)
+- [Using Environment Variables](#using-environment-variables)
+- [Manual Reports](#manual-reports)
+- [Auto Report vs Manual Report](#auto-report-vs-manual-report)
+- [Data Quality Reports](#data-quality-reports)
+- [Supported Metrics](#supported-metrics)
+- [Validation](#validation)
+- [Managing API Keys](#managing-api-keys)
+- [Monitoring Models](#monitoring-models)
+- [Multiple Models](#multiple-models)
+- [Error Handling](#error-handling)
+- [API Reference](#api-reference)
+- [Requirements](#requirements)
+- [Security](#security)
+- [License](#license)
+- [Author](#author)
 
 ---
 
@@ -64,9 +105,9 @@ For production applications, do not hard-code your API key in your source code. 
 
 # MLSentinel Dashboard
 
-The MLSentinel Dashboard is the web interface for managing your machine learning monitoring projects.
+The [MLSentinel Dashboard](https://mlsentinel.dev/dashboard) is the web interface for managing your machine learning monitoring projects.
 
-The SDK is responsible for sending evaluation data to MLSentinel. The dashboard is used to configure projects and models and to monitor the results.
+The SDK is used from your Python application to send evaluation data to MLSentinel. The dashboard is used to configure your projects and models and monitor the results.
 
 From the dashboard, you can:
 
@@ -82,13 +123,21 @@ From the dashboard, you can:
 - review recommendations
 - manage monitoring settings
 
-## Setting Up MLSentinel
+Open the dashboard:
 
-Before using `auto_report()`, create your project, model, and API key from the dashboard.
+**[https://mlsentinel.dev](https://mlsentinel.dev)**
 
-### Step 1: Open the Dashboard
+---
 
-Open the MLSentinel Dashboard and sign in to your account.
+## Dashboard Setup
+
+Before using `auto_report()`, create your workspace, project, model, and API key from the dashboard.
+
+### Step 1: Sign in to MLSentinel
+
+Open the [MLSentinel Signup](https://www.mlsentinel.dev/login?mode=signup) and sign in to your account.
+
+After signing in, open your workspace.
 
 ---
 
@@ -101,8 +150,12 @@ For example:
 ```text
 Workspace: My ML Projects
 ```
+<video autoplay loop src="https://github.com/user-attachments/assets/5de2396d-56cc-4770-9943-ac4be3efa05e" width="100%" controls>
+  Your browser does not support the video tag.
+</video>
 
-If you already have a workspace, you can use it instead of creating a new one.
+
+If you already have a workspace, you can use the existing one.
 
 A workspace keeps your projects and models organized.
 
@@ -117,20 +170,28 @@ For example:
 ```text
 Project: Spam Detector
 ```
+<video autoplay loop src="https://github.com/user-attachments/assets/cfe1eb92-84fa-4578-87dc-f3ae4d09942d" width="100%" controls>
+  Your browser does not support the video tag.
+</video>
+
 
 The project contains the models you want to monitor.
 
 ---
 
-### Step 4: Add a Machine Learning Model
+### Step 4: Add Your Machine Learning Model
 
-Open your project and add the model you want to monitor.
+Open the project and add the model you want to monitor.
 
 For example:
 
 ```text
 Model: Random Forest
 ```
+<video autoplay loop src="https://github.com/user-attachments/assets/a2aed00f-c27c-4616-9eae-77285fe4e9c1" width="100%" controls>
+  Your browser does not support the video tag.
+</video>
+
 
 You can add multiple models to the same project.
 
@@ -147,13 +208,16 @@ Spam Detector
 
 ### Step 5: Open API Keys
 
-Open the **API Keys** section from the dashboard.
+Open the [API Keys](https://www.mlsentinel.dev/dashboard/api-keys) section from the dashboard.
 
 Click:
 
 ```text
 Create API Key
 ```
+<video autoplay loop src="https://github.com/user-attachments/assets/1a82d46b-0766-4840-9069-7d95b689e31b" width="100%" controls>
+  Your browser does not support the video tag.
+</video>
 
 A form will appear for creating the API key.
 
@@ -169,7 +233,11 @@ For example:
 Production Monitoring
 ```
 
-Other useful labels could be:
+<video autoplay loop src="https://github.com/user-attachments/assets/71291ac9-57d8-4f10-b307-7f66e84fa163" width="100%" controls>
+  Your browser does not support the video tag.
+</video>
+
+Other useful labels include:
 
 ```text
 Development
@@ -192,8 +260,11 @@ For example:
 ```text
 Default Model: Random Forest
 ```
+<video autoplay loop src="https://github.com/user-attachments/assets/7dcdc0b7-1429-4f6d-9fc5-14327ee3d7ef" width="100%" controls>
+  Your browser does not support the video tag.
+</video>
 
-This step is required when using `auto_report()`.
+This is important when using `auto_report()`.
 
 The selected model becomes the default model for that API key.
 
@@ -212,6 +283,9 @@ It will look similar to:
 ```text
 mls_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
+<video autoplay loop src="https://github.com/user-attachments/assets/368a1f4e-0cff-4006-9c5c-46e8f5e53186" width="100%" controls>
+  Your browser does not support the video tag.
+</video>
 
 Copy the key and store it securely.
 
@@ -221,15 +295,19 @@ Do not publish it on GitHub or include it directly in publicly accessible source
 
 ---
 
-## Using the SDK
+### Step 9: Install the SDK
 
-Once you have created an API key, install the SDK:
+Install MLSentinel in your Python project:
 
 ```bash
 pip install mlsentinel
 ```
 
-Then initialize the client:
+---
+
+### Step 10: Initialize the SDK
+
+Create an `MLDoc` client using the API key generated from the dashboard.
 
 ```python
 from mlsentinel import MLDoc
@@ -241,17 +319,9 @@ Replace `YOUR_API_KEY` with the key generated from the dashboard.
 
 ---
 
-# Auto Reports
+### Step 11: Send Your First Report
 
-`auto_report()` is the simplest way to send model evaluation metrics to MLSentinel.
-
-You do not need to provide the project or model name with every report.
-
-The API key already has a default model associated with it, so MLSentinel uses that model automatically.
-
-## Step 1: Create Your Metrics
-
-Prepare the evaluation metrics from your model.
+Prepare your model evaluation metrics:
 
 ```python
 metrics = {
@@ -264,9 +334,76 @@ metrics = {
 }
 ```
 
+Send them using `auto_report()`:
+
+```python
+response = client.auto_report(
+    metrics=metrics
+)
+
+print(response)
+```
+
+You do not need to provide the project or model name.
+
+MLSentinel uses the default model associated with the API key.
+
 ---
 
-## Step 2: Initialize the Client
+### Auto Report Setup
+
+This video demonstrates how to:
+
+- install the SDK
+- create an `MLDoc` client
+- configure an API key
+- evaluate a model
+- send metrics using `auto_report()`
+
+**Video:** `ADD_VIDEO_LINK_HERE`
+
+---
+
+### Model Monitoring
+
+This video demonstrates how to:
+
+- send model evaluation reports
+- open the dashboard
+- view model health
+- review evaluation history
+- review detected issues and recommendations
+
+**Video:** `ADD_VIDEO_LINK_HERE`
+
+> Replace `ADD_VIDEO_LINK_HERE` with your YouTube or other video URL when the videos are published.
+
+---
+
+# Auto Reports
+
+`auto_report()` is the simplest way to send model evaluation metrics to MLSentinel.
+
+You do not need to provide the project or model name with every report.
+
+The API key already has a default model associated with it, so MLSentinel uses that model automatically.
+
+### Create Your Metrics
+
+Prepare the evaluation metrics from your model:
+
+```python
+metrics = {
+    "accuracy": 0.95,
+    "precision": 0.94,
+    "recall": 0.93,
+    "f1_score": 0.935,
+    "roc_auc": 0.98,
+    "val_loss": 0.18,
+}
+```
+
+### Initialize the Client
 
 ```python
 from mlsentinel import MLDoc
@@ -274,11 +411,7 @@ from mlsentinel import MLDoc
 client = MLDoc("YOUR_API_KEY")
 ```
 
----
-
-## Step 3: Send the Report
-
-Call `auto_report()`:
+### Send the Report
 
 ```python
 response = client.auto_report(
@@ -295,7 +428,7 @@ project="..."
 model="..."
 ```
 
-MLSsentinel uses the default model associated with your API key.
+MLSentinel uses the default model associated with your API key.
 
 ---
 
@@ -609,7 +742,7 @@ If an API key does not have a default model, `auto_report()` cannot determine wh
 
 # Managing API Keys
 
-API keys can be managed from the MLSentinel Dashboard.
+API keys can be managed from the [MLSentinel APIKeys](https://mlsentinel.dev/dashboard/api-keys).
 
 You can:
 
@@ -625,9 +758,9 @@ A revoked API key can no longer be used to authenticate requests to MLSentinel.
 
 ---
 
-# Monitoring Models from the Dashboard
+# Monitoring Models
 
-After reports are submitted through the SDK, open the MLSentinel Dashboard to monitor the associated model.
+After reports are submitted through the SDK, open the [MLSentinel Monitoring](https://mlsentinel.dev/dashboard/monitoring) to monitor the associated model.
 
 The dashboard provides information about your model's evaluation history and health.
 
@@ -865,7 +998,16 @@ client = MLDoc(
 )
 ```
 
-If an API key is accidentally exposed, revoke it from the MLSentinel Dashboard and create a new one.
+If an API key is accidentally exposed, revoke it from the [MLSentinel Dashboard](https://mlsentinel.dev) and create a new one.
+
+---
+
+# Links
+
+- **Website:** https://mlsentinel.dev
+- **Dashboard:** https://mlsentinel.dev/dashboard
+- **PyPI:** https://pypi.org/project/mlsentinel/
+- **GitHub:** https://github.com/Narasimha440/mlsentinal
 
 ---
 
