@@ -1,4 +1,6 @@
-![MLSentinel logo](https://raw.githubusercontent.com/Narasimha440/mlsentinal/main/logo.png)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Narasimha440/mlsentinal/main/logo.png" alt="MLSentinel logo" width="160">
+</p>
 
 # MLSentinel SDK
 
@@ -7,28 +9,416 @@
 [![License](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
 [![PyPI Downloads](https://static.pepy.tech/personalized-badge/mlsentinel?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/mlsentinel)
 
-MLSentinel SDK is the Python client for sending model evaluation reports and data-quality summaries to the MLSentinel platform. It keeps the workflow simple: validate locally, send with your API key, and get back a structured JSON response or a clear SDK error.
+MLSentinel is a Python SDK for sending machine learning model evaluation metrics and data-quality reports to the MLSentinel platform.
+
+The SDK handles local validation, authentication, report submission, and API errors while keeping the integration simple.
+
+You can use the SDK to:
+
+- send model evaluation reports
+- automatically associate reports with a model
+- send data-quality reports
+- monitor model health through the MLSentinel Dashboard
+- handle validation, authentication, connection, and server errors
+
+There are two main ways to send model evaluation reports:
+
+- `auto_report()` — automatically uses the model associated with your API key.
+- `doc_report()` — lets you provide the project and model manually.
+
+---
 
 ## Installation
 
-The SDK supports Python 3.9 and newer.
+MLSentinel supports Python 3.9 and newer.
 
-Install from PyPI:
+Install the latest version from PyPI:
 
 ```bash
 pip install mlsentinel
 ```
 
-Or install from a local checkout while developing:
+To install the SDK from a local checkout while developing:
 
 ```bash
 pip install .
 ```
 
+---
+
 ## Quick Start
 
+Import `MLDoc` and initialize the client using your MLSentinel API key.
+
 ```python
-from mlsentinal import MLDoc
+from mlsentinel import MLDoc
+
+client = MLDoc("YOUR_API_KEY")
+```
+
+You can now send model evaluation reports to MLSentinel.
+
+For production applications, do not hard-code your API key in your source code. Use an environment variable or a secret manager.
+
+---
+
+# MLSentinel Dashboard
+
+The MLSentinel Dashboard is the web interface for managing your machine learning monitoring projects.
+
+The SDK is responsible for sending evaluation data to MLSentinel. The dashboard is used to configure projects and models and to monitor the results.
+
+From the dashboard, you can:
+
+- create and manage workspaces
+- create projects
+- add machine learning models
+- create and manage API keys
+- assign a default model to an API key
+- view model health
+- view evaluation history
+- monitor model performance
+- review detected issues
+- review recommendations
+- manage monitoring settings
+
+## Setting Up MLSentinel
+
+Before using `auto_report()`, create your project, model, and API key from the dashboard.
+
+### Step 1: Open the Dashboard
+
+Open the MLSentinel Dashboard and sign in to your account.
+
+---
+
+### Step 2: Create a Workspace
+
+Create a workspace for your machine learning projects.
+
+For example:
+
+```text
+Workspace: My ML Projects
+```
+
+If you already have a workspace, you can use it instead of creating a new one.
+
+A workspace keeps your projects and models organized.
+
+---
+
+### Step 3: Create a Project
+
+Open your workspace and create a project for the machine learning application you want to monitor.
+
+For example:
+
+```text
+Project: Spam Detector
+```
+
+The project contains the models you want to monitor.
+
+---
+
+### Step 4: Add a Machine Learning Model
+
+Open your project and add the model you want to monitor.
+
+For example:
+
+```text
+Model: Random Forest
+```
+
+You can add multiple models to the same project.
+
+For example:
+
+```text
+Spam Detector
+├── Random Forest
+├── XGBoost
+└── Logistic Regression
+```
+
+---
+
+### Step 5: Open API Keys
+
+Open the **API Keys** section from the dashboard.
+
+Click:
+
+```text
+Create API Key
+```
+
+A form will appear for creating the API key.
+
+---
+
+### Step 6: Add an API Key Label
+
+Enter a label that helps you identify how the key will be used.
+
+For example:
+
+```text
+Production Monitoring
+```
+
+Other useful labels could be:
+
+```text
+Development
+Production
+GitHub Actions
+Local Testing
+Model Evaluation
+```
+
+The label is only used to identify the API key.
+
+---
+
+### Step 7: Select the Default Model
+
+Select the model that the API key should be associated with.
+
+For example:
+
+```text
+Default Model: Random Forest
+```
+
+This step is required when using `auto_report()`.
+
+The selected model becomes the default model for that API key.
+
+When the SDK sends an automatic report, MLSentinel uses the API key to determine which model should receive the report.
+
+---
+
+### Step 8: Create the API Key
+
+Click **Create Key**.
+
+MLSentinel will generate a new API key.
+
+It will look similar to:
+
+```text
+mls_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+Copy the key and store it securely.
+
+The API key should be treated as a secret.
+
+Do not publish it on GitHub or include it directly in publicly accessible source code.
+
+---
+
+## Using the SDK
+
+Once you have created an API key, install the SDK:
+
+```bash
+pip install mlsentinel
+```
+
+Then initialize the client:
+
+```python
+from mlsentinel import MLDoc
+
+client = MLDoc("YOUR_API_KEY")
+```
+
+Replace `YOUR_API_KEY` with the key generated from the dashboard.
+
+---
+
+# Auto Reports
+
+`auto_report()` is the simplest way to send model evaluation metrics to MLSentinel.
+
+You do not need to provide the project or model name with every report.
+
+The API key already has a default model associated with it, so MLSentinel uses that model automatically.
+
+## Step 1: Create Your Metrics
+
+Prepare the evaluation metrics from your model.
+
+```python
+metrics = {
+    "accuracy": 0.95,
+    "precision": 0.94,
+    "recall": 0.93,
+    "f1_score": 0.935,
+    "roc_auc": 0.98,
+    "val_loss": 0.18,
+}
+```
+
+---
+
+## Step 2: Initialize the Client
+
+```python
+from mlsentinel import MLDoc
+
+client = MLDoc("YOUR_API_KEY")
+```
+
+---
+
+## Step 3: Send the Report
+
+Call `auto_report()`:
+
+```python
+response = client.auto_report(
+    metrics=metrics
+)
+
+print(response)
+```
+
+You do not need to provide:
+
+```python
+project="..."
+model="..."
+```
+
+MLSsentinel uses the default model associated with your API key.
+
+---
+
+## Auto Report with a Trained Model
+
+You can use `auto_report()` directly after evaluating a machine learning model.
+
+For example, using scikit-learn:
+
+```python
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+)
+
+from mlsentinel import MLDoc
+
+
+model = RandomForestClassifier()
+
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+
+metrics = {
+    "accuracy": accuracy_score(y_test, y_pred),
+
+    "precision": precision_score(
+        y_test,
+        y_pred,
+        average="weighted",
+    ),
+
+    "recall": recall_score(
+        y_test,
+        y_pred,
+        average="weighted",
+    ),
+
+    "f1_score": f1_score(
+        y_test,
+        y_pred,
+        average="weighted",
+    ),
+}
+
+
+client = MLDoc("YOUR_API_KEY")
+
+response = client.auto_report(
+    metrics=metrics
+)
+
+print(response)
+```
+
+The metrics are calculated locally and then submitted to MLSentinel.
+
+The backend uses the API key to find the associated default model and stores the report under that model.
+
+---
+
+# Using Environment Variables
+
+Do not hard-code API keys in production applications.
+
+Set your API key as an environment variable.
+
+### Linux/macOS
+
+```bash
+export MLSENTINEL_API_KEY="your_api_key"
+```
+
+### Windows PowerShell
+
+```powershell
+$env:MLSENTINEL_API_KEY="your_api_key"
+```
+
+Then load the key in Python:
+
+```python
+import os
+
+from mlsentinel import MLDoc
+
+
+client = MLDoc(
+    os.environ["MLSENTINEL_API_KEY"]
+)
+```
+
+You can then send reports normally:
+
+```python
+response = client.auto_report(
+    metrics={
+        "accuracy": 0.95,
+        "precision": 0.94,
+        "recall": 0.93,
+        "f1_score": 0.935,
+    }
+)
+
+print(response)
+```
+
+---
+
+# Manual Reports
+
+Use `doc_report()` when you want to specify the project and model manually.
+
+This is useful when the same API key is used to report metrics for different models or projects.
+
+```python
+from mlsentinel import MLDoc
+
 
 client = MLDoc("YOUR_API_KEY")
 
@@ -46,46 +436,86 @@ response = client.doc_report(
 )
 
 print(response)
-print(client.version())
 ```
 
-Keep API keys out of source control. In real projects, read them from environment variables or a secret manager instead of hard-coding them.
+Unlike `auto_report()`, `doc_report()` requires both the project and model.
 
-## What the SDK Does
+---
 
-MLSentinel SDK is designed to stay out of your way:
+# Auto Report vs Manual Report
 
-- validates `project`, `model`, and `metrics` before making a network request
-- sends reports to the backend using the `X-API-Key` header
-- returns the API response as JSON when the request succeeds
-- raises SDK-specific exceptions when validation, authentication, network, or server handling fails
-- can also generate and upload a data-quality summary from a pandas DataFrame
+| Feature | `auto_report()` | `doc_report()` |
+| --- | --- | --- |
+| Metrics required | Yes | Yes |
+| Project required | No | Yes |
+| Model required | No | Yes |
+| Default model required | Yes | No |
+| Model selected automatically | Yes | No |
+| Best for | Monitoring one configured model | Reporting to different models |
 
-## Data Quality Reports
+For most integrations where one API key belongs to one model, `auto_report()` is the simpler option.
 
-If you want a quick health snapshot of a dataset, the SDK can summarize it locally and send the result to the platform.
+---
+
+# What the SDK Does
+
+MLSentinel handles the common work required to communicate with the MLSentinel platform.
+
+The SDK:
+
+- validates project, model, and metric information
+- validates metrics locally before sending requests
+- authenticates requests using your API key
+- sends reports to the MLSentinel backend
+- returns successful API responses as JSON
+- converts API failures into SDK-specific exceptions
+- supports automatic model association with `auto_report()`
+- supports manual reports with `doc_report()`
+- generates and uploads data-quality summaries from pandas DataFrames
+
+Validation happens locally first whenever possible, so invalid input can be detected before a request is sent.
+
+---
+
+# Data Quality Reports
+
+MLSentinel can generate a summary of a pandas DataFrame and send the result to the platform.
+
+This can be useful for checking the quality of data being used by a model.
 
 ```python
 import pandas as pd
-from mlsentinal import MLDoc
+
+from mlsentinel import MLDoc
+
 
 df = pd.read_csv("creditcard.csv")
 
 client = MLDoc("YOUR_API_KEY")
+
 response = client.report_data_quality(
     project="Loan Prediction",
-    model="ResNet50",
+    model="Random Forest",
     dataframe=df,
 )
 
 print(response)
 ```
 
-This feature requires `pandas` and `numpy`.
+The data-quality feature requires:
 
-## Validation Rules
+```text
+pandas
+numpy
+```
 
-Every report expects a non-empty string for both `project` and `model`. The `metrics` argument must be a non-empty dictionary, and only the supported metrics below are accepted.
+The data-quality summary is generated locally before being submitted to MLSentinel.
+
+---
+
+# Supported Metrics
+
+MLSentinel supports the following model evaluation metrics.
 
 | Metric | Accepted value |
 | --- | --- |
@@ -96,64 +526,355 @@ Every report expects a non-empty string for both `project` and `model`. The `met
 | `roc_auc` | Number from `0` to `1` |
 | `val_loss` | Number greater than or equal to `0` |
 
-Validation happens locally first, so malformed payloads are caught before a request leaves your machine.
-
-## Errors
-
-The SDK raises its own exception types so you can handle failures cleanly in one place.
+Example:
 
 ```python
-from mlsentinal import MLDoc
-from mlsentinal.exceptions import MLSentinelError
+metrics = {
+    "accuracy": 0.95,
+    "precision": 0.94,
+    "recall": 0.93,
+    "f1_score": 0.935,
+}
+```
+
+Metric values are validated before the report is submitted.
+
+---
+
+# Validation
+
+For `doc_report()`, both `project` and `model` must be non-empty strings.
+
+```python
+client.doc_report(
+    project="Spam Detector",
+    model="Random Forest",
+    metrics={
+        "accuracy": 0.95,
+    },
+)
+```
+
+For `auto_report()`, project and model names are not required.
+
+```python
+client.auto_report(
+    metrics={
+        "accuracy": 0.95,
+    }
+)
+```
+
+In both cases, `metrics` must be a non-empty dictionary containing supported metrics with valid values.
+
+Invalid input is rejected locally before the request is sent.
+
+---
+
+# API Keys and Default Models
+
+Every API key used with `auto_report()` must have a default model.
+
+The default model is selected when the API key is created from the MLSentinel Dashboard.
+
+For example:
+
+```text
+Label: Production Monitoring
+Default Model: Random Forest
+```
+
+When the key is used:
+
+```python
+from mlsentinel import MLDoc
+
+client = MLDoc("YOUR_API_KEY")
+
+client.auto_report(
+    metrics={
+        "accuracy": 0.94,
+        "precision": 0.93,
+        "recall": 0.92,
+        "f1_score": 0.925,
+    }
+)
+```
+
+MLSentinel automatically sends the report to the model associated with the API key.
+
+If an API key does not have a default model, `auto_report()` cannot determine which model should receive the metrics.
+
+---
+
+# Managing API Keys
+
+API keys can be managed from the MLSentinel Dashboard.
+
+You can:
+
+- create new API keys
+- give keys meaningful labels
+- select a default model
+- view existing API keys
+- revoke keys that are no longer needed
+
+When a key is no longer required, revoke it from the dashboard.
+
+A revoked API key can no longer be used to authenticate requests to MLSentinel.
+
+---
+
+# Monitoring Models from the Dashboard
+
+After reports are submitted through the SDK, open the MLSentinel Dashboard to monitor the associated model.
+
+The dashboard provides information about your model's evaluation history and health.
+
+You can use it to review:
+
+- current model health
+- evaluation metrics
+- previous model runs
+- performance changes
+- detected issues
+- rule-based warnings
+- recommendations
+
+You can continue sending reports from your training or evaluation pipeline and use the dashboard as the central place to monitor your models.
+
+---
+
+# Multiple Models
+
+You can monitor multiple models by creating separate API keys and assigning each key to its corresponding default model.
+
+For example:
+
+```text
+Production API Key
+→ Random Forest
+
+Development API Key
+→ XGBoost
+
+Testing API Key
+→ Logistic Regression
+```
+
+Each application can then use its own API key:
+
+```python
+from mlsentinel import MLDoc
+
+client = MLDoc("YOUR_API_KEY")
+
+client.auto_report(
+    metrics={
+        "accuracy": 0.95,
+        "precision": 0.94,
+        "recall": 0.93,
+        "f1_score": 0.935,
+    }
+)
+```
+
+The SDK does not need to specify the model because the API key already has a default model configured.
+
+---
+
+# Error Handling
+
+The SDK provides its own exception types so applications can handle MLSentinel failures cleanly.
+
+```python
+from mlsentinel import MLDoc
+from mlsentinel.exceptions import MLSentinelError
+
 
 client = MLDoc("YOUR_API_KEY")
 
 try:
-    client.doc_report(
-        project="Spam Detector",
-        model="Random Forest",
-        metrics={"accuracy": 1.2},
+    response = client.auto_report(
+        metrics={
+            "accuracy": 1.2,
+        }
     )
+
 except MLSentinelError as error:
     print(error.code)
     print(error.message)
 ```
 
+For example, an accuracy value of `1.2` is invalid because accuracy must be between `0` and `1`.
+
+## SDK Exceptions
+
 | Situation | Exception |
 | --- | --- |
-| Invalid project, model, or metrics | `ProjectValidationError`, `ModelValidationError`, `MetricValidationError` |
+| Invalid project | `ProjectValidationError` |
+| Invalid model | `ModelValidationError` |
+| Invalid metrics | `MetricValidationError` |
 | Invalid API key | `InvalidAPIKeyError` |
 | Authentication or authorization failure | `AuthenticationError` |
-| Timeout, connection, or request failure | `MLSentinalConnectionError` |
-| Unexpected API response or server failure | `MLSentinalServerError` |
+| Timeout or connection failure | `MLSentinalConnectionError` |
+| Unexpected API response | `MLSentinalServerError` |
+| Backend server failure | `MLSentinalServerError` |
 
-## API Reference
+You can catch specific exceptions when different failures need different handling.
 
-### `MLDoc(api_key, check_version=True)`
+---
 
-Creates a client for the MLSentinel platform. The client can optionally check SDK compatibility during initialization.
+# API Reference
 
-### `client.doc_report(project, model, metrics)`
+## `MLDoc(api_key, check_version=True)`
 
-Validates and submits a model report. On success, it returns the JSON response from the backend.
+Creates an MLSentinel client.
 
-### `client.report_data_quality(project, model, dataframe)`
+```python
+client = MLDoc(
+    "YOUR_API_KEY"
+)
+```
 
-Builds a local data-quality summary and submits it to the backend.
+### Parameters
 
-### `client.version()`
+- `api_key` — MLSentinel API key.
+- `check_version` — enables or disables SDK compatibility checking.
 
-Returns the installed SDK version.
+---
 
-## Requirements
+## `client.auto_report(metrics)`
 
-- Python 3.9+
-- `requests` 2.31.0+
+Automatically submits model evaluation metrics using the default model associated with the API key.
 
-## License
+```python
+response = client.auto_report(
+    metrics={
+        "accuracy": 0.95,
+        "precision": 0.94,
+        "recall": 0.93,
+        "f1_score": 0.935,
+    }
+)
+```
+
+### Parameters
+
+- `metrics` — dictionary containing supported model evaluation metrics.
+
+The API key must have a default model associated with it.
+
+---
+
+## `client.doc_report(project, model, metrics)`
+
+Submits a report while manually specifying the project and model.
+
+```python
+response = client.doc_report(
+    project="Spam Detector",
+    model="Random Forest",
+    metrics={
+        "accuracy": 0.95,
+    },
+)
+```
+
+### Parameters
+
+- `project` — MLSentinel project name.
+- `model` — model name.
+- `metrics` — dictionary containing model evaluation metrics.
+
+---
+
+## `client.report_data_quality(project, model, dataframe)`
+
+Generates a local data-quality summary from a pandas DataFrame and submits it to MLSentinel.
+
+```python
+response = client.report_data_quality(
+    project="Loan Prediction",
+    model="Random Forest",
+    dataframe=df,
+)
+```
+
+### Parameters
+
+- `project` — MLSentinel project name.
+- `model` — model name.
+- `dataframe` — pandas DataFrame to analyze.
+
+---
+
+## `client.version()`
+
+Returns the installed MLSentinel SDK version.
+
+```python
+print(client.version())
+```
+
+---
+
+# Requirements
+
+MLSentinel requires:
+
+- Python 3.9 or newer
+- `requests` 2.31.0 or newer
+
+Data-quality features also require:
+
+- `pandas`
+- `numpy`
+
+---
+
+# Security
+
+Treat your MLSentinel API key like a password.
+
+Do not expose API keys in:
+
+- GitHub repositories
+- public documentation
+- frontend applications
+- screenshots
+- source code
+- public logs
+
+Do not do this in production:
+
+```python
+client = MLDoc("mls_your_real_api_key_here")
+```
+
+Instead, use an environment variable:
+
+```python
+import os
+
+from mlsentinel import MLDoc
+
+
+client = MLDoc(
+    os.environ["MLSENTINEL_API_KEY"]
+)
+```
+
+If an API key is accidentally exposed, revoke it from the MLSentinel Dashboard and create a new one.
+
+---
+
+# License
 
 MLSentinel is distributed under the [MIT License](LICENSE).
 
-## Author
+---
+
+# Author
 
 Created by [Adari Narasimha Dhoni](https://github.com/Narasimha440).
