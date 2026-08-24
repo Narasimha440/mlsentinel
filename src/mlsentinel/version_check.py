@@ -10,9 +10,12 @@ Network failures are silently ignored when ``silent=True``.
 """
 
 import requests
+from packaging.version import Version, InvalidVersion
+from colorama import Fore, Style, init
 
 from .version import __version__
 from .config import VERSION_CHECK_URL, VERSION_CHECK_TIMEOUT
+init(autoreset=True)
 from .error_codes import ErrorCodes
 from .exceptions import UnsupportedSDKVersionError
 
@@ -110,34 +113,27 @@ def check_sdk_version(silent: bool = True):
         )
         response.raise_for_status()
         data = response.json()
+        latest = data["info"]["version"]
 
-    except requests.exceptions.RequestException:
+        installed_version = Version(__version__)
+        latest_version = Version(latest)
+
+    except (requests.exceptions.RequestException, KeyError, ValueError, InvalidVersion):
         if silent:
             return
         raise
 
-    latest = data.get("latest")
-    minimum = data.get("minimum")
-    message = data.get("message", "")
-
     installed_tuple = _parse_version(__version__)
+    latest_tuple = _parse_version(latest)
 
-    if minimum:
-        minimum_tuple = _parse_version(minimum)
-
-        if installed_tuple < minimum_tuple:
-            raise UnsupportedSDKVersionError(
-                ErrorCodes.UNSUPPORT_API_VERSION,
-                f"Installed MLSentinel SDK version {__version__} is below the minimum"
-                f"required version {minimum}. Please upgrade: "
-                f"pip install --upgrade mlsentinel"
-            )
-
-        if latest:
-            latest_tuple = _parse_version(latest)
-
-            if installed_tuple < latest_tuple:
-                print(
-                    f"[MLSentinel] A newer SDK version is available: {latest} "
-                    f"(installed: {__version__}). {message}"
-                )
+    if installed_tuple < latest_tuple:
+        print(
+            f"{Fore.CYAN}[MLSentinel]{Style.RESET_ALL} " 
+            f"{Fore.YELLOW}A newer SDK version is available!{Style.RESET_ALL}\n"
+            f"  Installed: "
+            f"{Fore.LIGHTBLACK_EX}{__version__}{Style.RESET_ALL}\n"
+            f"  Latest:   "
+            f"{Fore.YELLOW}{latest}{Style.RESET_ALL}\n"
+            f"  Upgrade:  "
+            f"{Fore.GREEN}pip install --upgrade mlsentinel{Style.RESET_ALL}\n"
+        )

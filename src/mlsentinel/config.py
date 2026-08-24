@@ -15,7 +15,7 @@ BASE_URL = "https://api.mlsentinel.dev"
 
 # Endpoint used to check the installed SDK version against the
 # versions supported by the MLSentinel backend.
-VERSION_CHECK_URL = f"{BASE_URL}/sdk/version"
+VERSION_CHECK_URL = "https://pypi.org/pypi/mlsentinel/json"
 
 # Maximum amount of time, in seconds, allowed for an SDK
 # version-check request.
